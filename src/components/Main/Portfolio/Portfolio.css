@@ -26,7 +26,7 @@
 
 .portfolio__links {
   width: 100%;
-  margin-top: 50px;
+  margin-top: 30px;
 }
 
 .portfolio__link {
@@ -44,10 +44,6 @@
 .portfolio__link:hover {
   cursor: pointer;
   opacity: 0.5;
-}
-
-portfolio__link:first-of-type {
-  padding: 0 0 19px;
 }
 
 .portfolio__link:last-of-type {
