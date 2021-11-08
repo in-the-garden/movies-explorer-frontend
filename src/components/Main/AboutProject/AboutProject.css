@@ -9,7 +9,7 @@
   min-width: 320px;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 110px 70px;
+  padding: 0 70px 110px;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
@@ -17,6 +17,7 @@
 
 .info__header {
   margin: 0;
+  padding-top: 110px;
   padding-bottom: 23px;
   font-weight: 400;
   font-size: 22px;
