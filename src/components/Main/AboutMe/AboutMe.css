@@ -74,6 +74,7 @@
 .profile__avatar {
   width: 270px;
   height: 307px;
+  border-radius: 10px;
   position: absolute;
   top: 226px;
   right: 70px;
