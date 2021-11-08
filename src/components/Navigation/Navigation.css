@@ -1,0 +1,45 @@
+.navigation__main {
+  margin-right: -30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.navigation__link {
+  margin-right: 30px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  transition: opacity 1s ease-in;
+}
+
+.navigation__link:hover {
+  cursor: pointer;
+  opacity: .5;
+}
+
+.navigation__link_transparent {
+  color: #FFFFFF;
+}
+
+.navigation__link_green {
+  padding: 8px 20px;
+  color: #000000;
+  border-radius: 3px;
+  background-color: #3DDC84;
+}
+
+.navigation__movies {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.navigation__icon {
+  padding: 8px 7px;
+  border-radius: 4px;
+  background-color: #313131;
+}
