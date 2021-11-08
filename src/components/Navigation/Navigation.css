@@ -1,13 +1,12 @@
-.navigation__main {
+.navigation__main-links {
   margin-right: -30px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
 }
 
-.navigation__link {
+.navigation__main-link {
   margin-right: 30px;
   text-decoration: none;
   font-weight: 500;
@@ -16,29 +15,63 @@
   transition: opacity 1s ease-in;
 }
 
-.navigation__link:hover {
+.navigation__main-link:hover {
   cursor: pointer;
   opacity: .5;
 }
 
-.navigation__link_transparent {
+.navigation__main-link_transparent {
   color: #FFFFFF;
 }
 
-.navigation__link_green {
+.navigation__main-link_green {
   padding: 8px 20px;
   color: #000000;
   border-radius: 3px;
   background-color: #3DDC84;
 }
 
-.navigation__movies {
+.navigation__movie {
+  width: 100%;
+  margin-left: 44px;
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 18px;
+}
+
+.navigation__movie-link {
+  margin-right: 16px;
+  text-decoration: none;
+  color: #FFFFFF;
+  white-space: nowrap;
+  transition: opacity 1s ease-in;
+}
+
+.navigation__movie-link_active {
+  font-weight: 500;
+}
+
+.navigation__profile {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-decoration: none;
+  color: #FFFFFF;
+  transition: opacity 1s ease-in;
+}
+
+.navigation__movie-link:hover,
+.navigation__profile:hover {
+  cursor: pointer;
+  opacity: .5;
 }
 
 .navigation__icon {
+  margin-left: 17px;
   padding: 8px 7px;
   border-radius: 4px;
   background-color: #313131;

@@ -27,7 +27,7 @@ function Header({ location }) {
 
   return (
     <header className={headerClassname}>
-      <div className="header__container">
+      <div className={`header__container ${location === "/" && 'header__container_main'}`}>
         <Link to="/">
           <img className="header__logo" src={logo} alt="Логотип сайта"/>
         </Link>
