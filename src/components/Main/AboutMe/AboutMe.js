@@ -8,6 +8,7 @@ function AboutMe() {
       <div className="profile__container">
         <div className="profile__header">Студент</div>
         <div className="profile__info">
+          <img className="profile__avatar" src={avatar} alt="Фотография студента" />
           <h2 className="profile__title">Ирина</h2>
           <h3 className="profile__subtitle">Фронтенд-разработчик, 27 лет</h3>
           <p className="profile__description">
@@ -19,7 +20,6 @@ function AboutMe() {
             <a className="profile__contact" href="https://www.facebook.com/profile.php?id=100006194614348" target="_blank" rel="noreferrer">Facebook</a>
             <a className="profile__contact" href="https://github.com/in-the-garden" target="_blank" rel="noreferrer">Github</a>
           </div>
-          <img className="profile__avatar" src={avatar} alt="Фотография студента" />
         </div>
       </div>
     </section>

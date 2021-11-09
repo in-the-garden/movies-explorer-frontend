@@ -62,3 +62,50 @@
   width: 29px;
   align-items: flex-end;
 }
+
+@media (max-width: 960px) {
+  .portfolio__container {
+    padding: 0 50px 90px;
+  }
+
+  .portfolio__link {
+    border-bottom: 1px solid #E5E5E5;
+  }
+
+  .portfolio__project {
+    font-size: 28px;
+  }
+
+  .portfolio__arrow {
+    width: 27px;
+  }
+}
+
+@media (max-width: 765px) {
+  .portfolio__container {
+    padding: 0 40px 70px;
+  }
+
+  .portfolio__links {
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 550px) {
+  .portfolio__container {
+    padding: 0 14px 70px;
+  }
+
+  .portfolio__header {
+    font-size: 14px;
+  }
+
+  .portfolio__project {
+    font-size: 18px;
+    line-height: 28px;
+  }
+
+  .portfolio__arrow {
+    width: 18px;
+  }
+}
