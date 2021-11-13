@@ -76,3 +76,14 @@
   border-radius: 4px;
   background-color: #313131;
 }
+
+@media (max-width: 550px) {
+  .navigation__main-links {
+    margin-right: -14px;
+  }
+
+  .navigation__main-link {
+    margin-right: 14px;
+    font-size: 10px;
+  }
+}

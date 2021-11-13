@@ -29,3 +29,20 @@
   display: none;
 }
 
+@media (max-width: 960px) {
+  .header__container {
+    padding: 18px 50px;
+  }
+}
+
+@media (max-width: 765px) {
+  .header__container {
+    padding: 18px 40px;
+  }
+}
+
+@media (max-width: 550px) {
+  .header__container {
+    padding: 18px 14px;
+  }
+}
