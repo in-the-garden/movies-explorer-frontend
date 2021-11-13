@@ -1,7 +1,9 @@
 import './App.css';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
+import NotFound from '../NotFound/NotFound';
 import { useLocation, Route, Routes } from 'react-router-dom';
+
 
 function App() {
   const location = useLocation().pathname;
@@ -10,7 +12,8 @@ function App() {
     <div className="page">
       <Header location={location}/>
       <Routes>
-        <Route exact path="/" element={<Main />} />
+        <Route path="/" element={<Main />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   );
