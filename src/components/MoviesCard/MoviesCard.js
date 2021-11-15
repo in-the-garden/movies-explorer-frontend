@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router';
 
 import './MoviesCard.css';
-import example from '../../images/mock-card-1.png';
 
 function MoviesCard(props) {
   const [status, setStatus] = useState(false);
@@ -10,7 +9,7 @@ function MoviesCard(props) {
 
   return (
     <div className="card">
-      <img className="card__image" src={example} alt={props.alt} />
+      <img className="card__image" src={props.image} alt={props.alt} />
       <div className="card__info">
         <h2 className="card__name">{props.name}</h2>
         <p className="card__time">{props.time}</p>

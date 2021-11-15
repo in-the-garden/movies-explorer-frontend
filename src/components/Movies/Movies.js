@@ -1,18 +1,17 @@
 import React from  'react';
-import SearchForm from '../SearchFrom/SearchForm';
+import SearchForm from '../SearchForm/SearchForm';
 
 import './Movies.css';
-import MoviesCard from "../MoviesCard/MoviesCard";
+import MoviesCardList from '../MoviesCardList/MoviesCardList';
+
 
 function Movies() {
   return (
     <section className="movies">
       <div className="movies__container">
         <SearchForm />
-        <MoviesCard
-          name={'Баския: Взрыв реальности'}
-          time={'1ч 17м'}
-        />
+        <div className="movies__break"></div>
+        <MoviesCardList />
       </div>
     </section>
   )
