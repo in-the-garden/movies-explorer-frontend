@@ -31,13 +31,7 @@
 
 @media (max-width: 960px) {
   .header__container {
-    padding: 18px 50px;
-  }
-}
-
-@media (max-width: 765px) {
-  .header__container {
-    padding: 18px 40px;
+    padding: 18px 30px;
   }
 }
 
