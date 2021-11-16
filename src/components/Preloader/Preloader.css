@@ -1,0 +1,32 @@
+.preloader {
+  max-width: 100%;
+  padding: 50px 0 80px;
+  background-color: #202020;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.preloader__btn {
+  border: none;
+  outline: none;
+  width: 100%;
+  padding: 11px 0 9px;
+  border-radius: 6px;
+  background-color: #2F2F2F;
+  color: #FFFFFF;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+  text-align: center;
+  transition: opacity 1s ease-in;
+}
+
+.preloader__btn:hover {
+  opacity: .5;
+}
+
+.hidden {
+  visibility: hidden;
+}

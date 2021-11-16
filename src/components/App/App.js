@@ -5,6 +5,7 @@ import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
 import NotFound from '../NotFound/NotFound';
 import { useLocation, Route, Routes } from 'react-router-dom';
+import {useState} from "react";
 
 
 function App() {
