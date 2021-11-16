@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Navigation.css';
 import profileLogo from '../../images/profile-logo.svg';
+import useWindowDimensions from '../useWindowDimensions';
 
-function Navigation({ location }) {
-  console.log(location)
+function Navigation({ location, onMenuPopup }) {
+  const { width } = useWindowDimensions();
+
   return (
     <>
       {location === "/" ?
@@ -17,7 +19,7 @@ function Navigation({ location }) {
               Войти
             </Link>
           </nav>
-        ) : (
+        ) : width > 768 ? (
           <nav className="navigation__movie">
             <div className="navigation__movie-links">
               <Link to="/movies" className={`navigation__movie-link ${location === "/movies" && 'navigation__movie-link_active'}`}>
@@ -31,6 +33,14 @@ function Navigation({ location }) {
               Аккаунт
               <img className="navigation__icon" src={profileLogo} alt="Иконка личного кабинета" />
             </Link>
+          </nav>
+        ) : (
+          <nav className="navigation__menu">
+            <button
+              className="navigation__btn"
+              type="button"
+              onClick={onMenuPopup}
+            ></button>
           </nav>
         )
       }

@@ -5,7 +5,7 @@ import './Header.css';
 import logo from '../../images/header-logo.svg';
 import Navigation from '../Navigation/Navigation';
 
-function Header({ location }) {
+function Header({ location, onMenuPopup }) {
   let headerClassname;
 
       switch (location) {
@@ -31,7 +31,7 @@ function Header({ location }) {
         <Link to="/">
           <img className="header__logo" src={logo} alt="Логотип сайта"/>
         </Link>
-        <Navigation location={location}/>
+        <Navigation location={location} onMenuPopup={onMenuPopup} />
       </div>
     </header>
   );
