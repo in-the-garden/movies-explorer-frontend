@@ -8,21 +8,21 @@ import Navigation from '../Navigation/Navigation';
 function Header({ location }) {
   let headerClassname;
 
-  switch (location) {
-    case "/movies":
-      headerClassname = "header header_movies";
-      break;
-    case "/saved-movies":
-      headerClassname = "header header_movies";
-      break;
-    case "/profile":
-      headerClassname = "header header_movies";
-      break;
-    case "/":
-      headerClassname = "header";
-      break;
-    default:
-      headerClassname = "header header_hidden";
+      switch (location) {
+        case "/movies":
+          headerClassname = "header header_movies";
+          break;
+        case "/saved-movies":
+          headerClassname = "header header_movies";
+          break;
+        case "/profile":
+          headerClassname = "header header_movies";
+          break;
+        case "/":
+          headerClassname = "header";
+          break;
+        default:
+          headerClassname = "header header_hidden";
   }
 
   return (
