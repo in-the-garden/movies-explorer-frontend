@@ -6,7 +6,7 @@ import profileLogo from "../../images/profile-logo.svg";
 
 function Menu({ location, state, onClose }) {
   return (
-    <div className={`menu ${state ? 'visible' : ''}`}>
+    <div className={`menu ${state ? 'is-open' : ''}`}>
       <div className="menu__container">
         <div className="menu__links">
           <Link
