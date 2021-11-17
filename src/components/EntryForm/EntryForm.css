@@ -1,0 +1,146 @@
+.entry {
+  width: 100%;
+  background-color: #202020;
+}
+
+.entry__container {
+  min-width: 320px;
+  max-width: 1280px;
+  box-sizing: border-box;
+  padding: 70px 0;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.entry__form {
+  width: 396px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: relative;
+}
+
+.entry__logo {
+  width: 38px;
+  height: 38px;
+}
+
+.entry__title {
+  margin: 40px 0;
+  color: #FFFFFF;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+}
+
+.entry__label {
+  color: #8B8B8B;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  margin: 24px 0 5px;
+}
+
+.entry__label:first-of-type {
+  margin: 0 0 5px;
+}
+
+.entry__input {
+  padding-bottom: 10px;
+  border: none;
+  outline: none;
+  background-color: inherit;
+  border-bottom: 1px solid #424242;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #FFFFFF;
+}
+
+.entry__input:last-of-type {
+  color: #EE3465;
+}
+
+.entry__input:focus:invalid {
+  border-bottom: 1px solid #4285F4;
+}
+
+.entry__input-error {
+  margin-top: 6px;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: #EE3465;
+}
+
+.entry__button {
+  width: 100%;
+  margin-top: 152px;
+  padding: 13px 0 15px;
+  border: none;
+  outline: none;
+  border-radius: 3px;
+  background-color: #4285F4;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  color: #FFFFFF;
+  transition: opacity 1s ease-in;
+}
+
+.entry__button:hover {
+  cursor: pointer;
+  opacity: .5;
+}
+
+.entry__message {
+  margin: 16px 0 0;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  color: #8B8B8B;
+}
+
+.entry__link {
+  margin-left: 6px;
+  text-decoration: none;
+  color: #4285F4;
+}
+
+@media (max-width: 800px) {
+  .entry__container {
+    padding: 232px 0;
+  }
+}
+
+@media (max-width: 500px) {
+  .entry__container {
+    padding: 56px 30px 30px;
+  }
+
+  .entry__form {
+    width: 260px;
+  }
+
+  .entry__logo,
+  .entry__title {
+    align-self: center;
+  }
+
+  .entry__button {
+    margin-top: 240px;
+    font-size: 12px;
+    line-height: 15px;
+  }
+
+  .entry__message {
+    margin: 14px 0 0;
+    font-size: 12px;
+    line-height: 15px;
+  }
+}

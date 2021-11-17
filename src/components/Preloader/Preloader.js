@@ -1,22 +1,14 @@
-import React from 'react';
-
+import React from 'react'
 import './Preloader.css'
-import {useLocation} from 'react-router';
 
-function Preloader() {
-  const location = useLocation();
-
-  return (
-    <div className={`preloader ${location.pathname === "/movies" ? '' : 'hidden'}`}>
-      <button
-        className="preloader__btn"
-        type="button"
-        onClick={(evt) => evt.preventDefault()}
-      >
-        Ещё
-      </button>
-    </div>
-  )
+const Preloader = () => {
+    return (
+        <div className="preloader">
+            <div className="preloader__container">
+                <span className="preloader__round"></span>
+            </div>
+        </div>
+    )
 };
 
-export default Preloader;
+export default Preloader

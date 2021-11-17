@@ -3,7 +3,7 @@ import SearchForm from '../SearchForm/SearchForm';
 
 import './SavedMovies.css';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
-import Preloader from '../Preloader/Preloader';
+import Preloader from '../MoreButton/MoreButton';
 
 function SavedMovies({ cardVisibility }) {
   return (
@@ -12,7 +12,6 @@ function SavedMovies({ cardVisibility }) {
         <SearchForm />
         <div className="saved-movies__break"></div>
         <MoviesCardList />
-        <Preloader />
       </div>
     </section>
   )

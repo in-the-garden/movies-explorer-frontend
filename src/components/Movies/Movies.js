@@ -3,7 +3,7 @@ import SearchForm from '../SearchForm/SearchForm';
 
 import './Movies.css';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
-import Preloader from '../Preloader/Preloader';
+
 
 function Movies({ cardVisibility }) {
   return (
@@ -12,7 +12,6 @@ function Movies({ cardVisibility }) {
         <SearchForm />
         <div className="movies__break"></div>
         <MoviesCardList />
-        <Preloader />
       </div>
     </section>
   )
