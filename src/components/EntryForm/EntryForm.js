@@ -9,7 +9,9 @@ function EntryForm({ title, isSignUp, buttonTitle, message, linkPath, linkText }
     <section class="entry">
       <div className="entry__container">
         <form className="entry__form" noValidate>
-          <img className="entry__logo" src={logo} alt="Логотип проекта" />
+          <Link to="/" className="entry__logo">
+            <img src={logo} alt="Логотип проекта" />
+          </Link>
           <h2 className="entry__title">{title}</h2>
           {isSignUp && (
             <>

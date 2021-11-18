@@ -58,6 +58,12 @@
   border: none;
   outline: none;
   border-radius: 100%;
+  transition: opacity 1s ease-in;
+}
+
+.search-form__btn:hover {
+  cursor: pointer;
+  opacity: .5;
 }
 
 .search-form__filter-container {
@@ -94,6 +100,10 @@
   background-color: #3DDC84;
   border-radius: 100%;
   visibility: hidden;
+}
+
+.search-form__btn-filter:hover {
+  cursor: pointer;
 }
 
 .visible {

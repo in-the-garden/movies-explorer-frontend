@@ -5,7 +5,7 @@ import './NotFound.css';
 function NotFound() {
   const navigate = useNavigate();
 
-  function goToPreviousPage() {
+  function goToPreviousPage(evt) {
     navigate(-1);
   }
   return (

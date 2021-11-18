@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import './SearchForm.css';
 
 function SearchForm() {
+  const [isShortMovie, setIsShortMovie] = useState(false);
+
+  function handleMovieType() {
+    setIsShortMovie(!isShortMovie);
+  }
+
   return (
   <form className="search-form">
     <div className="search-form__container">
@@ -11,8 +17,8 @@ function SearchForm() {
     </div>
     <div className="search-form__filter-container">
       <div className="search-form__btns-filter">
-        <button className="search-form__btn-filter" type="button" onClick={(evt) => evt.preventDefault()}></button>
-        <button className="search-form__btn-filter visible" type="button" onClick={(evt) => evt.preventDefault()}></button>
+        <button className={`search-form__btn-filter ${!isShortMovie && 'visible'}`} type="button" onClick={handleMovieType}></button>
+        <button className={`search-form__btn-filter ${isShortMovie && 'visible'}`} type="button" onClick={handleMovieType}></button>
       </div>
       Короткометражки
     </div>

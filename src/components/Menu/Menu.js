@@ -5,8 +5,27 @@ import './Menu.css';
 import profileLogo from "../../images/profile-logo.svg";
 
 function Menu({ location, state, onClose }) {
+  let isMenu;
+
+  switch (location) {
+    case "/profile":
+      isMenu = true;
+      break;
+    case "/movies":
+      isMenu = true;
+      break;
+    case "/saved-movies":
+      isMenu = true;
+      break;
+    case "/":
+      isMenu = true;
+      break;
+    default:
+      isMenu = false;
+  }
+
   return (
-    <div className={`menu ${state ? 'is-open' : ''}`}>
+    <div className={`menu ${state ? 'is-open' : ''} ${!isMenu && 'remove'}`}>
       <div className="menu__container">
         <div className="menu__links">
           <Link

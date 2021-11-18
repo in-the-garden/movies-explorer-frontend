@@ -36,6 +36,7 @@
   flex-direction: row;
   justify-content: space-between;
   border-bottom: 1px solid #424242;
+  position: relative;
 }
 
 .account__input-area:last-of-type {
@@ -72,6 +73,12 @@
   font-size: 13px;
   line-height: 16px;
   text-align: center;
+  transition: opacity 1s ease-in;
+}
+
+.account__button:hover {
+  cursor: pointer;
+  opacity: .5;
 }
 
 .account__button_white {
@@ -121,4 +128,14 @@
   .account__button_white {
     margin-top: 379px;
   }
+}
+
+.account__input-error {
+  position: absolute;
+  bottom: -45%;
+  right: 0;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: #EE3465;
 }

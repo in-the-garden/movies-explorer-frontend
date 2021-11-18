@@ -14,13 +14,13 @@ function Profile() {
           <div className="account__input-area">
             <label className="account__label">Имя</label>
             <input className="account__input" name="name" type="text" minLength="2" maxLength="30" value="Виталий" required/>
+            {isEdit && <span className="account__input-error">Ошибка</span>}
           </div>
-          {isEdit && <span className="account__input-error">Ошибка</span>}
           <div className="account__input-area">
             <label className="account__label">E-mail</label>
             <input className="account__input" name="email" type="email" value="pochta@yandex.ru" required/>
+            {isEdit && <span className="account__input-error">Ошибка</span>}
           </div>
-          {isEdit && <span className="account__input-error">Ошибка</span>}
           <button className="account__button account__button_white" type="submit">Редактировать</button>
         </form>
         <Link to="/">

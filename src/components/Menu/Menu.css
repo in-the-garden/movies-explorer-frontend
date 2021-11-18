@@ -119,6 +119,10 @@
   animation: open .6s linear normal forwards;
 }
 
+.remove {
+  display: none;
+}
+
 @media (max-width: 420px) {
   .menu {
     animation: close .4s linear normal forwards;

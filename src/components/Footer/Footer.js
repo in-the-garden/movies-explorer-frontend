@@ -25,9 +25,30 @@ function Footer({ location }) {
       <div className="footer__container">
         <p className="footer__date">&copy; 2021</p>
         <div className="footer__items">
-          <a className="footer__item">Яндекс.Практикум</a>
-          <a className="footer__item">Github</a>
-          <a className="footer__item">Facebook</a>
+          <a
+            className="footer__item"
+            href="https://practicum.yandex.ru/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Яндекс.Практикум
+          </a>
+          <a
+            className="footer__item"
+            href="https://github.com/in-the-garden"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Github
+          </a>
+          <a
+            className="footer__item"
+            href="https://www.facebook.com/profile.php?id=100006194614348"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Facebook
+          </a>
         </div>
       </div>
     </section>

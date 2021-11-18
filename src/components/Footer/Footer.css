@@ -42,6 +42,14 @@
 
 .footer__item {
   margin-right: 20px;
+  text-decoration: none;
+  color: #FFFFFF;
+  transition: opacity 1s ease-in;
+}
+
+.footer__item:hover {
+  cursor: pointer;
+  opacity: .5;
 }
 
 .footer__item:last-of-type {
