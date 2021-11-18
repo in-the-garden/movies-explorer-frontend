@@ -3,7 +3,6 @@ import SearchForm from '../SearchForm/SearchForm';
 
 import './SavedMovies.css';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
-import Preloader from '../MoreButton/MoreButton';
 
 function SavedMovies({ cardVisibility }) {
   return (

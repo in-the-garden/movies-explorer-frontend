@@ -1,0 +1,124 @@
+.account {
+  width: 100%;
+  background-color: #202020;
+}
+
+.account__container {
+  min-width: 320px;
+  max-width: 1280px;
+  padding: 74px 0 70px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.account__form {
+  width: 410px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.account__title {
+  margin: 0 0 123px;
+  color: #FFFFFF;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+}
+
+.account__input-area {
+  width: 100%;
+  padding: 0 0 16px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-bottom: 1px solid #424242;
+}
+
+.account__input-area:last-of-type {
+  border: none;
+  padding: 17px 0 0;
+}
+
+.account__label {
+  color: #FFFFFF;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 13px;
+  text-align: left;
+}
+
+.account__input {
+  max-width: max-content;
+  padding: 0;
+  border: none;
+  outline: none;
+  background-color: inherit;
+  color: #FFFFFF;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+  text-align: right;
+}
+
+.account__button {
+  padding: 0;
+  border: none;
+  outline: none;
+  background-color: inherit;
+  font-size: 13px;
+  line-height: 16px;
+  text-align: center;
+}
+
+.account__button_white {
+  margin-top: 220px;
+  color: #FFFFFF;
+  font-weight: 400;
+}
+
+.account__button_pink {
+  margin-top: 16px;
+  color: #EE3465;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .account__container {
+    padding: 236px 0 269px;
+  }
+
+  .account__title {
+    margin: 0 0 96px;
+  }
+
+  .account__button_whit {
+    margin-top: 210px;
+  }
+}
+
+@media (max-width: 500px) {
+  .account__container {
+    padding: 70px 0 40px;
+  }
+
+  .account__form {
+    width: 260px;
+  }
+
+  .account__title {
+    margin: 0 0 80px;
+  }
+
+  .account__button {
+    font-size: 12px;
+    line-height: 15px;
+  }
+
+  .account__button_white {
+    margin-top: 379px;
+  }
+}
