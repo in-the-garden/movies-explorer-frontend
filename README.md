@@ -11,9 +11,9 @@
 # &#127760; Адрес
 - Публичный IP с сервером: [62.84.120.147](http://62.84.120.147/)
 
-- [htpps](http://movies.pupkova.nomoredomains.rocks/)
+- [htpps](https://movies.pupkova.nomoredomains.rocks/)
 
-- [API](http://api.movies.pupkova.nomoredomains.rocks/) - [репозиторий](https://github.com/in-the-garden/movies-explorer-api)
+- [API](https://api.movies.pupkova.nomoredomains.rocks/) - [репозиторий](https://github.com/in-the-garden/movies-explorer-api)
 
 # &#128736; Технологии
 Проект написан на фреймворке React с использованием
