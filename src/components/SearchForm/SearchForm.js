@@ -12,7 +12,7 @@ function SearchForm() {
   return (
   <form className="search-form">
     <div className="search-form__container">
-      <input className="search-form__input" placeholder="Фильм" />
+      <input className="search-form__input" placeholder="Фильм" required/>
       <button className="search-form__btn" type="submit" onClick={(evt) => evt.preventDefault()}></button>
     </div>
     <div className="search-form__filter-container">
