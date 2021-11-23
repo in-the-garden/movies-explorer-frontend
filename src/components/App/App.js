@@ -1,4 +1,4 @@
-import { useLocation, Route, Routes, useNavigate } from 'react-router-dom';
+import { useLocation, Route, Routes, useNavigate } from 'react-router';
 import { useEffect, useState } from "react";
 
 import Header from '../Header/Header';
@@ -15,10 +15,10 @@ import Footer from '../Footer/Footer';
 import './App.css';
 import mainApi from "../../utils/MainApi";
 
-
 function App() {
   const location = useLocation().pathname;
   let navigate = useNavigate();
+  const [currentUser, setCurrentUser] = useState({});
   const [isMenuPopupOpen, setIsMenuPopupOpen] = useState(false);
   const [savedMovies, setSavedMovies] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
@@ -45,6 +45,14 @@ function App() {
         console.log('Error');
       }
     }).catch(err => console.log('Ошибка', err)
+    )
+  }
+
+  // редактирование данных о пользователе
+  function handleUpdateUser(userInfo) {
+    mainApi.updateUserInfo(userInfo).then((res) => {
+      setCurrentUser(res);
+      }).catch(err => console.log('Ошибка', err)
     )
   }
 
@@ -77,15 +85,37 @@ function App() {
     }
   }, [])
 
+  // получение данных о пользователе и сохраненных фильмах
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      navigate('/signin')
+    } else {
+      setLoggedIn(true);
+
+      Promise.all([
+        mainApi.getUser(),
+        mainApi.getMovies()
+      ]).then(([userInfo, userMovies]) => {
+        console.log(userInfo)
+        console.log(loggedIn)
+        setCurrentUser(userInfo);
+        setSavedMovies(userMovies);
+      }).catch(err => console.log('Ошибка', err)
+      )
+    }
+  }, [loggedIn])
+
   return (
     <div className="page">
       <Header location={location} onMenuPopup={handleMenuPopClick} />
       <Menu location={location} state={isMenuPopupOpen} onClose={closePopup}/>
       <Routes>
-        <Route path="/" element={<Main />} />
-        <Route path="signup" element={<Register onSubmit={onRegister} />} />
-        <Route path="signin" element={<Login onSubmit={onLogin} />} />
-        <Route path="profile" element={<Profile loggedIn={loggedIn} />} />
+        <Route path="/" element={<Main loggedIn={loggedIn}/>} />
+        <Route path="signup" element={<Register onSubmit={onRegister} loggedIn={loggedIn}/>} />
+        <Route path="signin" element={<Login onSubmit={onLogin} loggedIn={loggedIn}/>} />
+        <Route path="profile" element={<Profile loggedIn={loggedIn} currentUser={currentUser} onUpdate={handleUpdateUser}/>} />
         <Route path="movies" element={<Movies loggedIn={loggedIn} />} />
         <Route path="saved-movies" element={<SavedMovies loggedIn={loggedIn} />} />
         <Route path="*" element={<NotFound />} />

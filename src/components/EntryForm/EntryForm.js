@@ -36,7 +36,7 @@ function EntryForm({ title, isSignUp, buttonTitle, message, linkPath, linkText, 
           <label className="entry__label">Пароль</label>
           <input className="entry__input" name="password" type="password" value={values.password || ''} onChange={handleChange} minLength="2" maxLength="30" required />
           <span className="entry__input-error">{errors.password}</span>
-          <button className="entry__button" type="submit" disabled={isValid === false && true}>{buttonTitle}</button>
+          <button className="entry__button" type="submit" disabled={!isValid && true}>{buttonTitle}</button>
         </form>
         <p className="entry__message">{message}
           <Link className="entry__link" to={linkPath} >{linkText}</Link>

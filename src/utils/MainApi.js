@@ -54,6 +54,39 @@ class MainApi {
       }).catch(err => console.log('Ошибка', err)
       )
   }
+
+  getUser() {
+    return fetch(`${this.baseUrl}/users/me`, {
+      headers: {
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+      }
+    })
+      .then(this._handleResponse)
+  }
+
+  updateUserInfo(userInfo) {
+    return fetch(`${this.baseUrl}/users/me`, {
+      method: 'PATCH',
+      headers: {
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: userInfo.name,
+        email: userInfo.email
+      })
+    })
+      .then(this._handleResponse)
+  }
+
+  getMovies() {
+    return fetch(`${this.baseUrl}/movies/`, {
+      headers: {
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+      }
+    })
+      .then(this._handleResponse)
+  }
 }
 
 const mainApi = new MainApi({
