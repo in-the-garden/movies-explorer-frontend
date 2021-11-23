@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import './Profile.css';
 
-function Profile() {
+function Profile(props) {
   const [isEdit, setIsEdit] = useState(false);
 
   return (

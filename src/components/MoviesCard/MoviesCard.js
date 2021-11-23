@@ -11,7 +11,7 @@ function MoviesCard({ movieCard }) {
   const minutes = movieCard.duration && movieCard.duration - hours * 60;
 
   return (
-    <div className="card">
+    <a className="card" href={movieCard.trailerLink} target="_blank" rel="noreferrer">
       <img className="card__image" src={`https://api.nomoreparties.co${movieCard.image.url}`} alt={movieCard.nameRU} />
       <div className="card__info">
         <h2 className="card__name">{movieCard.nameRU}</h2>
@@ -33,7 +33,7 @@ function MoviesCard({ movieCard }) {
           onClick={(evt) => evt.preventDefault()}>
         </button>
       )}
-    </div>
+    </a>
   )
 };
 

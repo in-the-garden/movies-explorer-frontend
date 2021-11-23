@@ -31,12 +31,12 @@ function Movies({ cardVisibility }) {
           setMovies(shortMovies);
         } else {
           setMovies(filtredMovies);
-          console.log(filtredMovies);
         }
       })
       .catch(err => console.log('Ошибка', err));
   },[requestParameter, isShortMovie]);
 
+  console.log(movies)
   return (
     <section className="movies">
       <div className="movies__container">

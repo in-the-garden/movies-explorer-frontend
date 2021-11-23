@@ -4,7 +4,7 @@ import EntryForm from '../EntryForm/EntryForm';
 
 import './Register.css';
 
-function Register() {
+function Register({ onSubmit }) {
   return (
     <EntryForm
       isSignUp={true}
@@ -13,6 +13,7 @@ function Register() {
       message={'Уже зарегистрированы?'}
       linkPath={"/signin"}
       linkText={'Войти'}
+      onSubmit={onSubmit}
     >
     </EntryForm>
   )

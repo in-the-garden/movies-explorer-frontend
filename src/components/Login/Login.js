@@ -4,7 +4,7 @@ import EntryForm from '../EntryForm/EntryForm';
 
 import './Login.css';
 
-function Login() {
+function Login({ onSubmit }) {
   return (
     <EntryForm
       isSignUp={false}
@@ -13,6 +13,7 @@ function Login() {
       message={'Ещё не зарегистрированы?'}
       linkPath={"/signup"}
       linkText={'Регистрация'}
+      onSubmit={onSubmit}
     >
     </EntryForm>
   )

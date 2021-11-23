@@ -1,4 +1,4 @@
-import { useLocation, Route, Routes } from 'react-router-dom';
+import { useLocation, Route, Routes, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from "react";
 
 import Header from '../Header/Header';
@@ -13,11 +13,40 @@ import NotFound from '../NotFound/NotFound';
 import Footer from '../Footer/Footer';
 
 import './App.css';
+import mainApi from "../../utils/MainApi";
 
 
 function App() {
   const location = useLocation().pathname;
+  let navigate = useNavigate();
   const [isMenuPopupOpen, setIsMenuPopupOpen] = useState(false);
+  const [savedMovies, setSavedMovies] = useState([]);
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  function handleLogin() {
+    setLoggedIn(!loggedIn)
+  }
+
+  // регистрация пользователя
+  function onRegister(userInfo) {
+    mainApi.register(userInfo).then((res) => {
+      navigate('/signin');
+    }).catch(err => console.log('Ошибка', err)
+    )
+  }
+
+  // вход в учетную запись
+  function onLogin(userInfo) {
+    mainApi.login(userInfo).then((res) => {
+      if (res.token) {
+        handleLogin();
+        navigate('/movies');
+      } else {
+        console.log('Error');
+      }
+    }).catch(err => console.log('Ошибка', err)
+    )
+  }
 
   function handleMenuPopClick() {
     setIsMenuPopupOpen(true);
@@ -54,11 +83,11 @@ function App() {
       <Menu location={location} state={isMenuPopupOpen} onClose={closePopup}/>
       <Routes>
         <Route path="/" element={<Main />} />
-        <Route path="signup" element={<Register />} />
-        <Route path="signin" element={<Login />} />
-        <Route path="profile" element={<Profile />} />
-        <Route path="movies" element={<Movies />} />
-        <Route path="saved-movies" element={<SavedMovies />} />
+        <Route path="signup" element={<Register onSubmit={onRegister} />} />
+        <Route path="signin" element={<Login onSubmit={onLogin} />} />
+        <Route path="profile" element={<Profile loggedIn={loggedIn} />} />
+        <Route path="movies" element={<Movies loggedIn={loggedIn} />} />
+        <Route path="saved-movies" element={<SavedMovies loggedIn={loggedIn} />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer location={location} />
