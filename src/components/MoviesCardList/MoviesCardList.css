@@ -7,8 +7,10 @@
 
 .card-list__container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 59px 30px;
+  justify-items: center;
+  align-items: center;
 }
 
 .card-list__btn {
@@ -49,7 +51,5 @@
 @media (max-width: 589px) {
   .card-list__container {
     padding: 50px 0 80px;
-    justify-items: center;
-    align-items: center;
   }
 }
