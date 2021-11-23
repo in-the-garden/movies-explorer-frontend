@@ -3,23 +3,17 @@ import React, { useState } from 'react';
 import './SearchForm.css';
 
 function SearchForm(props) {
-  const [isShortMovie, setIsShortMovie] = useState(false);
   const [moviesRequest, setMoviesRequest] = useState('');
 
   function handleChangeMoviesRequest(evt) {
     setMoviesRequest(evt.target.value);
   }
 
-  function handleMovieType() {
-    setIsShortMovie(!isShortMovie);
-  }
-
   function handleSubmit(evt) {
     evt.preventDefault();
-    props.onMoviesRequest({
-      moviesRequest,
-      isShortMovie
-    });
+    props.onMoviesRequest(
+      moviesRequest
+    );
   }
 
   return (
@@ -37,8 +31,8 @@ function SearchForm(props) {
     </div>
     <div className="search-form__filter-container">
       <div className="search-form__btns-filter">
-        <button className={`search-form__btn-filter ${!isShortMovie && 'visible'}`} type="button" onClick={handleMovieType}></button>
-        <button className={`search-form__btn-filter ${isShortMovie && 'visible'}`} type="button" onClick={handleMovieType}></button>
+        <button className={`search-form__btn-filter ${!props.movieType && 'visible'}`} type="button" onClick={props.onMovieType}></button>
+        <button className={`search-form__btn-filter ${props.movieType && 'visible'}`} type="button" onClick={props.onMovieType}></button>
       </div>
       Короткометражки
     </div>

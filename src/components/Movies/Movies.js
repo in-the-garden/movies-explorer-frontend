@@ -6,35 +6,41 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
 import moviesApi from '../../utils/MoviesApi';
 import filterMovies from "../../utils/moviesFilter";
+import filterShortMovies from "../../utils/shortMoviesFilter";
 
 function Movies({ cardVisibility }) {
-  const [requestParameters, setRequestParameters] = useState({moviesRequest: '', isShortMovie: ''});
+  const [isShortMovie, setIsShortMovie] = useState(false);
+  const [requestParameter, setRequestParameter] = useState('');
   const [movies, setMovies] = useState([]);
 
-  function getRequestParameters({ moviesRequest, isShortMovie }) {
-    setRequestParameters({moviesRequest: moviesRequest.toLowerCase(), isShortMovie});
+  function handleMovieType() {
+    setIsShortMovie(!isShortMovie);
+  }
+
+  function getRequestParameter(moviesRequest) {
+    setRequestParameter(moviesRequest.toLowerCase());
   }
 
   useEffect(() => {
     moviesApi.getBeatfilmMovies()
       .then((res) => {
-        const filtredMovies = filterMovies(res, requestParameters.moviesRequest);
+        const filtredMovies = filterMovies(res, requestParameter);
 
-        setMovies(filtredMovies);
-        console.log(filtredMovies);
+        if(isShortMovie) {
+          const shortMovies = filterShortMovies(filtredMovies);
+          setMovies(shortMovies);
+        } else {
+          setMovies(filtredMovies);
+          console.log(filtredMovies);
+        }
       })
       .catch(err => console.log('Ошибка', err));
-  },[requestParameters]);
+  },[requestParameter, isShortMovie]);
 
-  //useEffect(() => {
-  //  setMovies([]);
-  //  setRequestParameters({moviesRequest: '', isShortMovie: ''});
-  //}, []);
-//
   return (
     <section className="movies">
       <div className="movies__container">
-        <SearchForm onMoviesRequest={getRequestParameters}/>
+        <SearchForm onMoviesRequest={getRequestParameter} onMovieType={handleMovieType} movieType={isShortMovie}/>
         <div className="movies__break"></div>
         <MoviesCardList movies={movies} />
       </div>

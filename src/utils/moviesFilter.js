@@ -1,4 +1,4 @@
-export default function filterMovies(data, keyword) {
+function filterMovies(data, keyword) {
   const filteredMovies = data.filter((el) => {
     const movieNameRU = el.nameRU && el.nameRU.toLowerCase();
     const movieNameEN = el.nameEN && el.nameEN.toLowerCase();
@@ -11,3 +11,5 @@ export default function filterMovies(data, keyword) {
 
   return filteredMovies;
 }
+
+export default filterMovies;
