@@ -1,12 +1,12 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import { useLocation } from 'react-router-dom';
-import useWindowDimensions from '../useWindowDimensions';
 
 import MoviesCard from '../MoviesCard/MoviesCard';
 
 import './MoviesCardList.css';
 
-function MoviesCardList({ movies }) {
+function MoviesCardList(props) {
+  const { movies } = props
   const location = useLocation().pathname;
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
@@ -50,16 +50,24 @@ function MoviesCardList({ movies }) {
 
   return (
     <section className="card-list">
-      <div className="card-list__container">
-        {movies.map(movieCard => <MoviesCard key={movieCard.id} movieCard={movieCard} />).slice(0, cardsLimit)}
-      </div>
-      <button
-        className={`card-list__btn ${location === "/movies" ? '' : 'hidden'}`}
-        type="button"
-        onClick={showMoreCards}
-      >
-        Ещё
-      </button>
+      {movies.length > 0 ? (
+        <>
+          <div className="card-list__container">
+            {movies.map(movieCard => <MoviesCard key={movieCard.id} movieCard={movieCard} onSave={props.onSave} onDelete={props.onDelete}/>).slice(0, cardsLimit)}
+          </div>
+          {cardsLimit <= movies.length && (
+            <button
+              className={`card-list__btn ${location === "/movies" ? '' : 'hidden'}`}
+              type="button"
+              onClick={showMoreCards}
+            >
+              Ещё
+            </button>
+          )}
+        </>
+      ) : (
+        <p className="card-list__caption">Нет сохраненных фильмов</p>
+      )}
     </section>
   )
 };

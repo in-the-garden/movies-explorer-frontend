@@ -87,6 +87,69 @@ class MainApi {
     })
       .then(this._handleResponse)
   }
+
+  createMovie(movie) {
+    const {
+      country,
+      director,
+      duration,
+      year,
+      description,
+      image,
+      trailerLink,
+      id,
+      nameRU,
+      nameEN,
+    } = movie;
+
+    const finalCountry =
+      country === null
+        ? "Неизвестно"
+        : country.length > 30
+          ? country.slice(0, 30)
+          : country;
+
+    const finalDirector =
+      director === null
+        ? "Неизвестно"
+        : director.length > 30
+          ? director.slice(0, 30)
+          : director;
+
+    const imageUrl = `https://api.nomoreparties.co${image.url}`;
+    const thumbnail = `https://api.nomoreparties.co${image.formats.thumbnail.url}`;
+
+    return fetch(`${this.baseUrl}/movies`, {
+      method: "POST",
+      headers: {
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        country: finalCountry,
+        director: finalDirector,
+        duration: duration,
+        year: year,
+        description: description,
+        image: imageUrl,
+        trailer: trailerLink,
+        movieId: id,
+        nameRU: nameRU,
+        nameEN: nameEN,
+        thumbnail: thumbnail,
+      }),
+    }).then(this._handleResponse);
+  }
+
+  deleteMovie(id) {
+    return fetch(`${this.baseUrl}/movies/${id}`, {
+      method: "DELETE",
+      headers: {
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json'
+      }
+    }).then(this._handleResponse);
+  }
 }
 
 const mainApi = new MainApi({

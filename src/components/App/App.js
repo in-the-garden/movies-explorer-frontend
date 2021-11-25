@@ -18,13 +18,30 @@ import mainApi from "../../utils/MainApi";
 function App() {
   const location = useLocation().pathname;
   let navigate = useNavigate();
+  const [loggedIn, setLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
   const [isMenuPopupOpen, setIsMenuPopupOpen] = useState(false);
-  const [savedMovies, setSavedMovies] = useState([]);
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [isShortMovie, setIsShortMovie] = useState(false);
+  const [requestParameter, setRequestParameter] = useState('');
 
   function handleLogin() {
     setLoggedIn(!loggedIn)
+  }
+
+  function handleMovieType() {
+    setIsShortMovie(!isShortMovie);
+  }
+
+  function getRequestParameter(moviesRequest) {
+    setRequestParameter(moviesRequest.toLowerCase());
+  }
+
+  function handleMovieSave(movieCard) {
+    mainApi.createMovie(movieCard);
+  }
+
+  function handleMovieDelete(movieCard) {
+    mainApi.deleteMovie(movieCard._id);
   }
 
   // регистрация пользователя
@@ -94,16 +111,18 @@ function App() {
     } else {
       setLoggedIn(true);
 
-      Promise.all([
-        mainApi.getUser(),
-        mainApi.getMovies()
-      ]).then(([userInfo, userMovies]) => {
-        console.log(userInfo)
-        console.log(loggedIn)
-        setCurrentUser(userInfo);
-        setSavedMovies(userMovies);
-      }).catch(err => console.log('Ошибка', err)
-      )
+      mainApi.getUser()
+        .then((user) => {
+          setCurrentUser(user);
+        }).catch(err => console.log('Ошибка', err))
+      //Promise.all([
+      //  mainApi.getUser(),
+      //  mainApi.getMovies()
+      //]).then(([userInfo, userMovies]) => {
+      //  setCurrentUser(userInfo);
+      //  setSavedMovies(userMovies);
+      //}).catch(err => console.log('Ошибка', err)
+      //)
     }
   }, [loggedIn])
 
@@ -116,8 +135,30 @@ function App() {
         <Route path="signup" element={<Register onSubmit={onRegister} loggedIn={loggedIn}/>} />
         <Route path="signin" element={<Login onSubmit={onLogin} loggedIn={loggedIn}/>} />
         <Route path="profile" element={<Profile loggedIn={loggedIn} currentUser={currentUser} onUpdate={handleUpdateUser}/>} />
-        <Route path="movies" element={<Movies loggedIn={loggedIn} />} />
-        <Route path="saved-movies" element={<SavedMovies loggedIn={loggedIn} />} />
+        <Route
+          path="movies"
+          element={<Movies
+            loggedIn={loggedIn}
+            onMovieType={handleMovieType}
+            isShortMovie={isShortMovie}
+            onMoviesRequest={getRequestParameter}
+            onSave={handleMovieSave}
+            onDelete={handleMovieDelete}
+            requestParameter={requestParameter}
+          />}
+        />
+        <Route
+          path="saved-movies"
+          element={<SavedMovies
+            loggedIn={loggedIn}
+            onMovieType={handleMovieType}
+            isShortMovie={isShortMovie}
+            onMoviesRequest={getRequestParameter}
+            onSave={handleMovieSave}
+            onDelete={handleMovieDelete}
+            requestParameter={requestParameter}
+          />}
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer location={location} />

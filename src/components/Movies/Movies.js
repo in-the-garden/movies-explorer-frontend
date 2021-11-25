@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import SearchForm from '../SearchForm/SearchForm';
 
 import './Movies.css';
@@ -8,25 +8,15 @@ import moviesApi from '../../utils/MoviesApi';
 import filterMovies from "../../utils/moviesFilter";
 import filterShortMovies from "../../utils/shortMoviesFilter";
 
-function Movies({ cardVisibility }) {
-  const [isShortMovie, setIsShortMovie] = useState(false);
-  const [requestParameter, setRequestParameter] = useState('');
+function Movies(props) {
   const [movies, setMovies] = useState([]);
-
-  function handleMovieType() {
-    setIsShortMovie(!isShortMovie);
-  }
-
-  function getRequestParameter(moviesRequest) {
-    setRequestParameter(moviesRequest.toLowerCase());
-  }
 
   useEffect(() => {
     moviesApi.getBeatfilmMovies()
       .then((res) => {
-        const filtredMovies = filterMovies(res, requestParameter);
+        const filtredMovies = filterMovies(res, props.requestParameter);
 
-        if(isShortMovie) {
+        if(props.isShortMovie) {
           const shortMovies = filterShortMovies(filtredMovies);
           setMovies(shortMovies);
         } else {
@@ -34,15 +24,15 @@ function Movies({ cardVisibility }) {
         }
       })
       .catch(err => console.log('Ошибка', err));
-  },[requestParameter, isShortMovie]);
+  },[props.requestParameter, props.isShortMovie]);
 
   console.log(movies)
   return (
     <section className="movies">
       <div className="movies__container">
-        <SearchForm onMoviesRequest={getRequestParameter} onMovieType={handleMovieType} movieType={isShortMovie}/>
+        <SearchForm onMoviesRequest={props.onMoviesRequest} onMovieType={props.onMovieType} movieType={props.isShortMovie}/>
         <div className="movies__break"></div>
-        <MoviesCardList movies={movies} />
+        <MoviesCardList movies={movies} onSave={props.onSave} onDelete={props.onDelete}/>
       </div>
     </section>
   )
