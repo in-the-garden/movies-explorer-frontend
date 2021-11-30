@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 
 import './SearchForm.css';
 
@@ -14,10 +14,11 @@ function SearchForm(props) {
     props.onMoviesRequest(
       moviesRequest
     );
+    console.log('start')
   }
 
   return (
-  <form className="search-form" onSubmit={handleSubmit}>
+  <form className="search-form" onSubmit={handleSubmit} noValidate>
     <div className="search-form__container">
       <input
         className="search-form__input"

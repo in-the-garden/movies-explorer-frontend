@@ -14,6 +14,9 @@ import Footer from '../Footer/Footer';
 
 import './App.css';
 import mainApi from "../../utils/MainApi";
+import moviesApi from "../../utils/MoviesApi";
+import filterMovies from "../../utils/moviesFilter";
+import filterShortMovies from "../../utils/shortMoviesFilter";
 
 function App() {
   const location = useLocation().pathname;
@@ -22,7 +25,8 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [isMenuPopupOpen, setIsMenuPopupOpen] = useState(false);
   const [isShortMovie, setIsShortMovie] = useState(false);
-  const [requestParameter, setRequestParameter] = useState('');
+  const [movies, setMovies] = useState([]);
+  const [inputError, setInputError] = useState(false);
 
   function handleLogin() {
     setLoggedIn(!loggedIn)
@@ -33,7 +37,26 @@ function App() {
   }
 
   function getRequestParameter(moviesRequest) {
-    setRequestParameter(moviesRequest.toLowerCase());
+    if (moviesRequest === '') {
+      setInputError(true);
+      setMovies([]);
+    } else {
+      setInputError(false);
+      moviesApi.getBeatfilmMovies()
+        .then((res) => {
+          const filtredMovies = filterMovies(res, moviesRequest.toLowerCase());
+
+          if (isShortMovie) {
+            const shortMovies = filterShortMovies(filtredMovies);
+            setMovies(shortMovies);
+            localStorage.setItem('movies', shortMovies);
+          } else {
+            setMovies(filtredMovies);
+            localStorage.setItem('movies', filtredMovies);
+          }
+        })
+        .catch(err => console.log('Ошибка', err));
+    }
   }
 
   function handleMovieSave(movieCard) {
@@ -47,7 +70,7 @@ function App() {
   // регистрация пользователя
   function onRegister(userInfo) {
     mainApi.register(userInfo).then((res) => {
-      navigate('/signin');
+      onLogin(userInfo)
     }).catch(err => console.log('Ошибка', err)
     )
   }
@@ -115,14 +138,6 @@ function App() {
         .then((user) => {
           setCurrentUser(user);
         }).catch(err => console.log('Ошибка', err))
-      //Promise.all([
-      //  mainApi.getUser(),
-      //  mainApi.getMovies()
-      //]).then(([userInfo, userMovies]) => {
-      //  setCurrentUser(userInfo);
-      //  setSavedMovies(userMovies);
-      //}).catch(err => console.log('Ошибка', err)
-      //)
     }
   }, [loggedIn])
 
@@ -144,7 +159,8 @@ function App() {
             onMoviesRequest={getRequestParameter}
             onSave={handleMovieSave}
             onDelete={handleMovieDelete}
-            requestParameter={requestParameter}
+            inputError={inputError}
+            movies={movies}
           />}
         />
         <Route
@@ -156,7 +172,7 @@ function App() {
             onMoviesRequest={getRequestParameter}
             onSave={handleMovieSave}
             onDelete={handleMovieDelete}
-            requestParameter={requestParameter}
+            movies={movies}
           />}
         />
         <Route path="*" element={<NotFound />} />

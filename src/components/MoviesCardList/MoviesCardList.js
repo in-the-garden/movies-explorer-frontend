@@ -6,9 +6,11 @@ import MoviesCard from '../MoviesCard/MoviesCard';
 import './MoviesCardList.css';
 
 function MoviesCardList(props) {
-  const { movies } = props
+  const { movies, inputError } = props
   const location = useLocation().pathname;
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+  console.log(movies)
 
   let maxCardsCount;
   let increment;
@@ -66,7 +68,8 @@ function MoviesCardList(props) {
           )}
         </>
       ) : (
-        <p className="card-list__caption">Нет сохраненных фильмов</p>
+        inputError &&
+        <p className="card-list__caption">Нужно ввести ключевое слово</p>
       )}
     </section>
   )
