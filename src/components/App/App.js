@@ -88,6 +88,13 @@ function App() {
     )
   }
 
+  // выход из учетной записи
+  function onLogout() {
+    localStorage.removeItem('token');
+    handleLogin();
+    navigate('/sign-in');
+  }
+
   // редактирование данных о пользователе
   function handleUpdateUser(userInfo) {
     mainApi.updateUserInfo(userInfo).then((res) => {
@@ -149,7 +156,7 @@ function App() {
         <Route path="/" element={<Main loggedIn={loggedIn}/>} />
         <Route path="signup" element={<Register onSubmit={onRegister} loggedIn={loggedIn}/>} />
         <Route path="signin" element={<Login onSubmit={onLogin} loggedIn={loggedIn}/>} />
-        <Route path="profile" element={<Profile loggedIn={loggedIn} currentUser={currentUser} onUpdate={handleUpdateUser}/>} />
+        <Route path="profile" element={<Profile onLogout={onLogout} loggedIn={loggedIn} currentUser={currentUser} onUpdate={handleUpdateUser}/>} />
         <Route
           path="movies"
           element={<Movies

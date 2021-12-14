@@ -4,7 +4,7 @@ import useFormAndValidation from '../../utils/useFormAndValidation';
 
 import './Profile.css';
 
-function Profile({ loggedIn, currentUser, onUpdate }) {
+function Profile({ loggedIn, currentUser, onUpdate, onLogout }) {
   const { values, errors, isValid, handleChange, resetForm } =
     useFormAndValidation();
 
@@ -48,7 +48,7 @@ function Profile({ loggedIn, currentUser, onUpdate }) {
           <button className="account__button account__button_white" type="submit" disabled={!isValid && true}>Редактировать</button>
         </form>
         <Link to="/">
-          <button className="account__button account__button_pink" type="submit">Выйти из аккаунта</button>
+          <button className="account__button account__button_pink" type="buttom" onClick={onLogout}>Выйти из аккаунта</button>
         </Link>
       </div>
     </section>
