@@ -14,6 +14,8 @@ function MoviesCard({ movieCard, onSave, onDelete}) {
   function handleSaveClick(evt) {
     if (evt.target.classList.contains('card__btn_not-saved')) {
       setIsSaved(!isSaved);
+      localStorage.setItem('savedMovies', movieCard);
+      //console.log('hoooooo',JSON.parse(localStorage.getItem('savedMovies')))
       onSave(movieCard);
     }
   }

@@ -27,6 +27,9 @@ function App() {
   const [isShortMovie, setIsShortMovie] = useState(false);
   const [movies, setMovies] = useState([]);
   const [inputError, setInputError] = useState(false);
+  const [requestParameter, setRequestParameter] = useState('');
+  const [requestError, setRequestError] = useState(false);
+  const [requestSuccess, setRequestSuccess] = useState(false);
 
   function handleLogin() {
     setLoggedIn(!loggedIn)
@@ -37,6 +40,8 @@ function App() {
   }
 
   function getRequestParameter(moviesRequest) {
+    setRequestParameter(moviesRequest);
+
     if (moviesRequest === '') {
       setInputError(true);
       setMovies([]);
@@ -45,6 +50,8 @@ function App() {
       moviesApi.getBeatfilmMovies()
         .then((res) => {
           const filtredMovies = filterMovies(res, moviesRequest.toLowerCase());
+          setRequestSuccess(true);
+          setRequestError(false);
 
           if (isShortMovie) {
             const shortMovies = filterShortMovies(filtredMovies);
@@ -55,12 +62,17 @@ function App() {
             localStorage.setItem('movies', filtredMovies);
           }
         })
-        .catch(err => console.log('Ошибка', err));
+        .catch(err => {
+          setRequestError(true);
+          console.log('Ошибка', err)
+        });
     }
   }
 
   function handleMovieSave(movieCard) {
-    mainApi.createMovie(movieCard);
+    const storageMovies = JSON.parse(localStorage.getItem('savedMovies'));
+    console.log(storageMovies)
+    //mainApi.createMovie(movieCard);
   }
 
   function handleMovieDelete(movieCard) {
@@ -91,6 +103,7 @@ function App() {
   // выход из учетной записи
   function onLogout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('movies');
     handleLogin();
     navigate('/sign-in');
   }
@@ -156,7 +169,8 @@ function App() {
         <Route path="/" element={<Main loggedIn={loggedIn}/>} />
         <Route path="signup" element={<Register onSubmit={onRegister} loggedIn={loggedIn}/>} />
         <Route path="signin" element={<Login onSubmit={onLogin} loggedIn={loggedIn}/>} />
-        <Route path="profile" element={<Profile onLogout={onLogout} loggedIn={loggedIn} currentUser={currentUser} onUpdate={handleUpdateUser}/>} />
+        <Route path="profile" element={<Profile onLogout={onLogout} loggedIn={loggedIn} currentUser={currentUser}
+                                                onUpdate={handleUpdateUser}/>} />
         <Route
           path="movies"
           element={<Movies
@@ -168,6 +182,8 @@ function App() {
             onDelete={handleMovieDelete}
             inputError={inputError}
             movies={movies}
+            requestError={requestError}
+            requestSuccess={requestSuccess}
           />}
         />
         <Route
@@ -177,6 +193,7 @@ function App() {
             onMovieType={handleMovieType}
             isShortMovie={isShortMovie}
             onMoviesRequest={getRequestParameter}
+            requestParameter={requestParameter}
             onSave={handleMovieSave}
             onDelete={handleMovieDelete}
             movies={movies}

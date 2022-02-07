@@ -6,11 +6,9 @@ import MoviesCard from '../MoviesCard/MoviesCard';
 import './MoviesCardList.css';
 
 function MoviesCardList(props) {
-  const { movies, inputError } = props
+  const { movies } = props
   const location = useLocation().pathname;
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-
-  console.log(movies)
 
   let maxCardsCount;
   let increment;
@@ -52,25 +50,21 @@ function MoviesCardList(props) {
 
   return (
     <section className="card-list">
-      {movies.length > 0 ? (
-        <>
-          <div className="card-list__container">
-            {movies.map(movieCard => <MoviesCard key={movieCard.id} movieCard={movieCard} onSave={props.onSave} onDelete={props.onDelete}/>).slice(0, cardsLimit)}
-          </div>
-          {cardsLimit <= movies.length && (
-            <button
-              className={`card-list__btn ${location === "/movies" ? '' : 'hidden'}`}
-              type="button"
-              onClick={showMoreCards}
-            >
-              Ещё
-            </button>
-          )}
-        </>
-      ) : (
-        inputError &&
-        <p className="card-list__caption">Нужно ввести ключевое слово</p>
-      )}
+      <>
+        <div className="card-list__container">
+          {movies.map(movieCard => <MoviesCard key={movieCard.id} movieCard={movieCard} onSave={props.onSave}
+                                               onDelete={props.onDelete}/>).slice(0, cardsLimit)}
+        </div>
+        {cardsLimit <= movies.length && (
+          <button
+            className={`card-list__btn ${location === "/movies" ? '' : 'hidden'}`}
+            type="button"
+            onClick={showMoreCards}
+          >
+            Ещё
+          </button>
+        )}
+      </>
     </section>
   )
 };

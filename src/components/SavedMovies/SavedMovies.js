@@ -13,13 +13,15 @@ function SavedMovies(props) {
   useEffect(() => {
     mainApi.getMovies()
       .then((res) => {
-        const filtredMovies = filterMovies(res, props.requestParameter);
+        const filtredMovies = filterMovies(res, props.requestParameter.toLowerCase());
 
         if(props.isShortMovie) {
           const shortMovies = filterShortMovies(filtredMovies);
           setSavedMovies(shortMovies);
+          localStorage.setItem('savedMovies', shortMovies);
         } else {
           setSavedMovies(filtredMovies);
+          localStorage.setItem('savedMovies', filtredMovies);
         }
       })
     }, [props.requestParameter, props.isShortMovie, props.isSaved])
