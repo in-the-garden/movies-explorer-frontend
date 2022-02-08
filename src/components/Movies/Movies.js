@@ -3,10 +3,11 @@ import SearchForm from '../SearchForm/SearchForm';
 
 import './Movies.css';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
+import Preloader from "../Preloader/Preloader";
 
 function Movies(props) {
   const { onMoviesRequest, onMovieType, onSave, onDelete, isShortMovie,
-    movies, savedMovies, inputError, requestParameter, requestError, requestSuccess } = props;
+    movies, savedMovies, inputError, isLoading, requestError, requestSuccess } = props;
 
   const [resultMovies, setResultMovies] = useState([]);
 
@@ -33,7 +34,8 @@ function Movies(props) {
       <div className="movies__container">
         <SearchForm onMoviesRequest={onMoviesRequest} onMovieType={onMovieType} movieType={isShortMovie}/>
         <div className="movies__break"></div>
-        { !requestError ? (
+        { isLoading ? <Preloader /> :
+          !requestError ? (
           movies.length > 0 ? (
             <MoviesCardList movies={resultMovies} onSave={onSave} onDelete={onDelete}
                             inputError={inputError} requestError={requestError}

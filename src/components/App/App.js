@@ -31,6 +31,7 @@ function App() {
   const [requestParameter, setRequestParameter] = useState('');
   const [requestError, setRequestError] = useState(false);
   const [requestSuccess, setRequestSuccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   function handleLogin() {
     setLoggedIn(!loggedIn)
@@ -48,6 +49,7 @@ function App() {
       setMovies([]);
     } else {
       setInputError(false);
+      setIsLoading(true);
       moviesApi.getBeatfilmMovies()
         .then((res) => {
           const filtredMovies = filterMovies(res, moviesRequest.toLowerCase());
@@ -62,6 +64,7 @@ function App() {
             setMovies(filtredMovies);
             localStorage.setItem('gotMovies', JSON.stringify(filtredMovies));
           }
+          setIsLoading(false);
         })
         .catch(err => {
           setRequestError(true);
@@ -122,8 +125,10 @@ function App() {
 
   // редактирование данных о пользователе
   function handleUpdateUser(userInfo) {
+    setIsLoading(true);
     mainApi.updateUserInfo(userInfo).then((res) => {
       setCurrentUser(res);
+      setIsLoading(false);
       }).catch(err => console.log('Ошибка', err)
     )
   }
@@ -188,7 +193,7 @@ function App() {
         <Route path="/" element={<Main loggedIn={loggedIn}/>} />
         <Route path="signup" element={<Register onSubmit={onRegister} loggedIn={loggedIn}/>} />
         <Route path="signin" element={<Login onSubmit={onLogin} loggedIn={loggedIn}/>} />
-        <Route path="profile" element={<Profile onLogout={onLogout} loggedIn={loggedIn} currentUser={currentUser}
+        <Route path="profile" element={<Profile onLogout={onLogout} isLoading={isLoading} currentUser={currentUser}
                                                 onUpdate={handleUpdateUser}/>} />
         <Route
           path="movies"
@@ -201,7 +206,7 @@ function App() {
             onDelete={handleMovieDelete}
             inputError={inputError}
             movies={movies}
-            requestParameter={requestParameter}
+            isLoading={isLoading}
             requestError={requestError}
             requestSuccess={requestSuccess}
             savedMovies={savedMovies}

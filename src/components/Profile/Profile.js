@@ -3,8 +3,9 @@ import { Link } from 'react-router-dom';
 import useFormAndValidation from '../../utils/useFormAndValidation';
 
 import './Profile.css';
+import Preloader from "../Preloader/Preloader";
 
-function Profile({ loggedIn, currentUser, onUpdate, onLogout }) {
+function Profile({ isLoading, currentUser, onUpdate, onLogout }) {
   const { values, errors, isValid, handleChange, resetForm } =
     useFormAndValidation();
 
@@ -45,10 +46,15 @@ function Profile({ loggedIn, currentUser, onUpdate, onLogout }) {
               required/>
             <span className="account__input-error">{errors.email}</span>
           </div>
-          <button className="account__button account__button_white" type="submit" disabled={!isValid && true}>Редактировать</button>
+          { isLoading && <Preloader/> }
+          <button className="account__button account__button_white" type="submit"
+                  disabled={!isValid && true}>Редактировать
+          </button>
         </form>
         <Link to="/">
-          <button className="account__button account__button_pink" type="buttom" onClick={onLogout}>Выйти из аккаунта</button>
+          <button className="account__button account__button_pink" type="buttom" onClick={onLogout}>Выйти из
+            аккаунта
+          </button>
         </Link>
       </div>
     </section>
