@@ -14,8 +14,6 @@ function MoviesCard({ movieCard, onSave, onDelete}) {
   function handleSaveClick(evt) {
     if (evt.target.classList.contains('card__btn_not-saved')) {
       setIsSaved(!isSaved);
-      localStorage.setItem('savedMovies', movieCard);
-      //console.log('hoooooo',JSON.parse(localStorage.getItem('savedMovies')))
       onSave(movieCard);
     }
   }
@@ -28,11 +26,12 @@ function MoviesCard({ movieCard, onSave, onDelete}) {
   }
 
   return (
-    <div className="card" href={movieCard.trailerLink} target="_blank" rel="noreferrer">
-      <img
+    <div className="card">
+      <a href={location === "/movies" ? movieCard.trailerLink : movieCard.trailer} target="_blank" rel="noreferrer"><img
         className="card__image"
         src={location === "/movies" ? `https://api.nomoreparties.co${movieCard.image.url}` : `${movieCard.image}`}
-        alt={movieCard.nameRU} />
+        alt={movieCard.nameRU}
+        /></a>
       <div className="card__info">
         <h2 className="card__name">{movieCard.nameRU}</h2>
         <p className="card__time">{hours > 0 && `${hours}ч`} {minutes > 0 && `${minutes}м`}</p>
@@ -40,11 +39,11 @@ function MoviesCard({ movieCard, onSave, onDelete}) {
       {location === "/movies" && (
         <button
           className={`card__btn visible
-            ${isSaved ? 'card__btn_is-saved' : 'card__btn_not-saved'}`
+            ${movieCard.isSaved ? 'card__btn_is-saved' : 'card__btn_not-saved'}`
           }
           type="button"
           onClick={handleSaveClick}>
-          {!isSaved ? 'Сохранить' : ''}
+          {!movieCard.isSaved ? 'Сохранить' : ''}
         </button>
       ) || location === "/saved-movies" && (
         <button

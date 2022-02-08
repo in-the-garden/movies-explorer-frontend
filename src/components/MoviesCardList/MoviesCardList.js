@@ -50,9 +50,11 @@ function MoviesCardList(props) {
 
   return (
     <section className="card-list">
+      { movies?.length > 0 &&
       <>
         <div className="card-list__container">
-          {movies.map(movieCard => <MoviesCard key={movieCard.id} movieCard={movieCard} onSave={props.onSave}
+          {movies.map(movieCard => <MoviesCard key={location === "/movies" ? movieCard.id : movieCard.movieId}
+                                               movieCard={movieCard} onSave={props.onSave}
                                                onDelete={props.onDelete}/>).slice(0, cardsLimit)}
         </div>
         {cardsLimit <= movies.length && (
@@ -65,6 +67,7 @@ function MoviesCardList(props) {
           </button>
         )}
       </>
+      }
     </section>
   )
 };

@@ -6,7 +6,27 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
 function Movies(props) {
   const { onMoviesRequest, onMovieType, onSave, onDelete, isShortMovie,
-    movies, inputError, requestError, requestSuccess } = props;
+    movies, savedMovies, inputError, requestParameter, requestError, requestSuccess } = props;
+
+  const [resultMovies, setResultMovies] = useState([]);
+
+  useEffect(() => {
+    const storageMovies = JSON.parse(localStorage.getItem('gotMovies'));
+
+    if (storageMovies) {
+      const finalMovies = movies.map((movie) => {
+        if (savedMovies.find((item) => item.nameRU === movie.nameRU)) {
+          movie.isSaved = true;
+        } else {
+          movie.isSaved = false;
+        }
+
+        return movie;
+      });
+
+      setResultMovies(finalMovies);
+    }
+  }, [movies, savedMovies])
 
   return (
     <section className="movies">
@@ -15,7 +35,7 @@ function Movies(props) {
         <div className="movies__break"></div>
         { !requestError ? (
           movies.length > 0 ? (
-            <MoviesCardList movies={movies} onSave={onSave} onDelete={onDelete}
+            <MoviesCardList movies={resultMovies} onSave={onSave} onDelete={onDelete}
                             inputError={inputError} requestError={requestError}
                             requestSuccess={requestSuccess}/>
           ) : inputError ? (

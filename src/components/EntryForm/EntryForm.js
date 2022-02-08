@@ -16,7 +16,7 @@ function EntryForm({ title, isSignUp, buttonTitle, message, linkPath, linkText, 
   }
 
   return (
-    <section class="entry">
+    <section className="entry">
       <div className="entry__container">
         <form className="entry__form" onSubmit={handleSubmit} noValidate>
           <Link to="/" className="entry__logo">

@@ -153,7 +153,8 @@ class MainApi {
 }
 
 const mainApi = new MainApi({
-  baseUrl: 'https://api.movies.pupkova.nomoredomains.rocks',
+  baseUrl: 'https://api.movies.pupkova.nomoredomains.rocks'
+  //baseUrl: 'http://localhost:3000'
 });
 
 export default mainApi;

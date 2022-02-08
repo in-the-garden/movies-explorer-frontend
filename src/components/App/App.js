@@ -26,6 +26,7 @@ function App() {
   const [isMenuPopupOpen, setIsMenuPopupOpen] = useState(false);
   const [isShortMovie, setIsShortMovie] = useState(false);
   const [movies, setMovies] = useState([]);
+  const [savedMovies, setSavedMovies] = useState([]);
   const [inputError, setInputError] = useState(false);
   const [requestParameter, setRequestParameter] = useState('');
   const [requestError, setRequestError] = useState(false);
@@ -56,10 +57,10 @@ function App() {
           if (isShortMovie) {
             const shortMovies = filterShortMovies(filtredMovies);
             setMovies(shortMovies);
-            localStorage.setItem('movies', shortMovies);
+            localStorage.setItem('gotMovies', JSON.stringify(shortMovies));
           } else {
             setMovies(filtredMovies);
-            localStorage.setItem('movies', filtredMovies);
+            localStorage.setItem('gotMovies', JSON.stringify(filtredMovies));
           }
         })
         .catch(err => {
@@ -69,20 +70,31 @@ function App() {
     }
   }
 
+  // добавление фильма в сохраненные
   function handleMovieSave(movieCard) {
-    const storageMovies = JSON.parse(localStorage.getItem('savedMovies'));
-    console.log(storageMovies)
-    //mainApi.createMovie(movieCard);
+    if (!movieCard.isSaved) {
+      mainApi.createMovie(movieCard)
+        .then((movie) => {
+          movie.isSaved = true;
+          setSavedMovies([movie, ...savedMovies]);
+        }).catch(err => console.log('Ошибка', err));
+    }
   }
 
+  // удаление фильма из числа сохраненных
   function handleMovieDelete(movieCard) {
-    mainApi.deleteMovie(movieCard._id);
+    if (movieCard.isSaved) {
+      mainApi.deleteMovie(movieCard._id)
+        .then((movie) => {
+          setSavedMovies(state => state.filter((c) => c._id !== movie._id));
+        }).catch(err => console.log('Ошибка', err));
+    }
   }
 
   // регистрация пользователя
   function onRegister(userInfo) {
     mainApi.register(userInfo).then((res) => {
-      onLogin(userInfo)
+      onLogin(userInfo);
     }).catch(err => console.log('Ошибка', err)
     )
   }
@@ -103,7 +115,7 @@ function App() {
   // выход из учетной записи
   function onLogout() {
     localStorage.removeItem('token');
-    localStorage.removeItem('movies');
+    localStorage.removeItem('gotMovies');
     handleLogin();
     navigate('/sign-in');
   }
@@ -143,7 +155,7 @@ function App() {
       document.removeEventListener('keydown', handleEscClose);
       document.removeEventListener('mousedown', handleOverlayClose);
     }
-  }, [])
+  }, []);
 
   // получение данных о пользователе и сохраненных фильмах
   useEffect(() => {
@@ -154,16 +166,23 @@ function App() {
     } else {
       setLoggedIn(true);
 
-      mainApi.getUser()
-        .then((user) => {
+      Promise.all([mainApi.getUser(), mainApi.getMovies()])
+        .then(([user, movies]) => {
           setCurrentUser(user);
+
+          const myMovies = movies.filter(movie => movie.owner === user._id);
+          const myMoviesSaved = myMovies.map(movie => {
+            movie.isSaved = true;
+            return movie;
+          })
+          setSavedMovies(myMoviesSaved);
         }).catch(err => console.log('Ошибка', err))
     }
-  }, [loggedIn])
+  }, [loggedIn]);
 
   return (
     <div className="page">
-      <Header location={location} onMenuPopup={handleMenuPopClick} />
+      <Header location={location} onMenuPopup={handleMenuPopClick} loggedIn={loggedIn}/>
       <Menu location={location} state={isMenuPopupOpen} onClose={closePopup}/>
       <Routes>
         <Route path="/" element={<Main loggedIn={loggedIn}/>} />
@@ -182,8 +201,10 @@ function App() {
             onDelete={handleMovieDelete}
             inputError={inputError}
             movies={movies}
+            requestParameter={requestParameter}
             requestError={requestError}
             requestSuccess={requestSuccess}
+            savedMovies={savedMovies}
           />}
         />
         <Route
@@ -196,7 +217,7 @@ function App() {
             requestParameter={requestParameter}
             onSave={handleMovieSave}
             onDelete={handleMovieDelete}
-            movies={movies}
+            savedMovies={savedMovies}
           />}
         />
         <Route path="*" element={<NotFound />} />

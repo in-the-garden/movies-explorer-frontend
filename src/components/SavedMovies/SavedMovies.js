@@ -3,35 +3,31 @@ import SearchForm from '../SearchForm/SearchForm';
 
 import './SavedMovies.css';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
-import mainApi from "../../utils/MainApi";
 import filterMovies from "../../utils/moviesFilter";
 import filterShortMovies from "../../utils/shortMoviesFilter";
 
 function SavedMovies(props) {
-  const [savedMovies, setSavedMovies] = useState([]);
+  const { savedMovies, isShortMovie, requestParameter, onMoviesRequest, onMovieType, onSave, onDelete } = props;
+
+  const [searchResult, setSearchResult] = useState([]);
 
   useEffect(() => {
-    mainApi.getMovies()
-      .then((res) => {
-        const filtredMovies = filterMovies(res, props.requestParameter.toLowerCase());
+    const filtredMovies = filterMovies(savedMovies, requestParameter.toLowerCase());
 
-        if(props.isShortMovie) {
-          const shortMovies = filterShortMovies(filtredMovies);
-          setSavedMovies(shortMovies);
-          localStorage.setItem('savedMovies', shortMovies);
-        } else {
-          setSavedMovies(filtredMovies);
-          localStorage.setItem('savedMovies', filtredMovies);
-        }
-      })
-    }, [props.requestParameter, props.isShortMovie, props.isSaved])
+    if(isShortMovie) {
+      const shortMovies = filterShortMovies(filtredMovies);
+      setSearchResult(shortMovies);
+    } else {
+      setSearchResult(filtredMovies);
+    }
+  }, [requestParameter, isShortMovie, savedMovies])
 
   return (
     <section className="saved-movies">
       <div className="saved-movies__container">
-        <SearchForm onMoviesRequest={props.onMoviesRequest} onMovieType={props.onMovieType} movieType={props.isShortMovie}/>
+        <SearchForm onMoviesRequest={onMoviesRequest} onMovieType={onMovieType} movieType={isShortMovie}/>
         <div className="saved-movies__break"></div>
-        <MoviesCardList movies={savedMovies} onSave={props.onSave} onDelete={props.onDelete}/>
+        <MoviesCardList movies={searchResult} onSave={onSave} onDelete={onDelete}/>
       </div>
     </section>
   )
