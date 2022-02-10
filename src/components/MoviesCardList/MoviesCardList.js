@@ -1,12 +1,12 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useLocation } from 'react-router-dom';
 
 import MoviesCard from '../MoviesCard/MoviesCard';
 
 import './MoviesCardList.css';
 
-function MoviesCardList(props) {
-  const { movies } = props
+function MoviesCardList( props ) {
+  const { movies, onSave, onDelete } = props
   const location = useLocation().pathname;
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
@@ -54,8 +54,8 @@ function MoviesCardList(props) {
       <>
         <div className="card-list__container">
           {movies.map(movieCard => <MoviesCard key={location === "/movies" ? movieCard.id : movieCard.movieId}
-                                               movieCard={movieCard} onSave={props.onSave}
-                                               onDelete={props.onDelete}/>).slice(0, cardsLimit)}
+                                               movieCard={movieCard} onSave={onSave}
+                                               onDelete={onDelete}/>).slice(0, cardsLimit)}
         </div>
         {cardsLimit <= movies.length && (
           <button

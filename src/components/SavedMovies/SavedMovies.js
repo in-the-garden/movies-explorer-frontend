@@ -3,39 +3,45 @@ import SearchForm from '../SearchForm/SearchForm';
 
 import './SavedMovies.css';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
-import filterMovies from "../../utils/moviesFilter";
-import filterShortMovies from "../../utils/shortMoviesFilter";
 import Preloader from "../Preloader/Preloader";
+import {Navigate} from "react-router";
 
 function SavedMovies(props) {
-  const { savedMovies, isShortMovie, requestParameter, onMoviesRequest, onMovieType, onSave, onDelete } = props;
+  const { isShortMovie, isLoading, onSave, onDelete, onSearch, savedMovies, loggedIn } = props;
 
-  const [searchResult, setSearchResult] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [searchText, setSearchText] = useState('');
+  const [isShort, setIsShort] = useState(false);
+  const [noSavedMovies, setNoSavedMovies] = useState(false);
+
+  function handleChangeMoviesRequest(evt) {
+    setSearchText(evt.target.value);
+  }
+
+  function handleMovieType() {
+    setIsShort(!isShort);
+  }
 
   useEffect(() => {
-    setIsLoading(true);
-    const filtredMovies = filterMovies(savedMovies, requestParameter.toLowerCase());
-
-    if(isShortMovie) {
-      const shortMovies = filterShortMovies(filtredMovies);
-      setSearchResult(shortMovies);
+    if (savedMovies.length !== 0) {
+      setNoSavedMovies(false);
     } else {
-      setSearchResult(filtredMovies);
+      setNoSavedMovies(true);
     }
-
-    setTimeout(() => {setIsLoading(false)}, 1000);
-  }, [requestParameter, isShortMovie, savedMovies])
+  }, [savedMovies])
 
   return (
+    loggedIn ?
     <section className="saved-movies">
       <div className="saved-movies__container">
-        <SearchForm onMoviesRequest={onMoviesRequest} onMovieType={onMovieType} movieType={isShortMovie}/>
+        <SearchForm onMoviesRequest={onSearch} onMovieType={handleMovieType} onChange={handleChangeMoviesRequest}
+                    movieType={isShortMovie} searchText={searchText} isShort={isShort}/>
         <div className="saved-movies__break"></div>
         { isLoading ? <Preloader /> :
-          <MoviesCardList movies={searchResult} onSave={onSave} onDelete={onDelete}/> }
+          !noSavedMovies && savedMovies.length === 0 ? <p className="saved-movies__caption">Ничего не найдено</p> :
+            <MoviesCardList movies={savedMovies} onSave={onSave} onDelete={onDelete}/> }
       </div>
     </section>
+      : <Navigate to={'/'} />
   )
 };
 

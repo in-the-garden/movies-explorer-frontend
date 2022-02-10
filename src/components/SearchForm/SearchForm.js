@@ -1,18 +1,17 @@
-import React, {useState} from 'react';
+import React from 'react';
 
 import './SearchForm.css';
 
-function SearchForm(props) {
-  const [moviesRequest, setMoviesRequest] = useState('');
-
-  function handleChangeMoviesRequest(evt) {
-    setMoviesRequest(evt.target.value);
-  }
+function SearchForm( props ) {
+  const { searchText, isShort, onChange } = props;
 
   function handleSubmit(evt) {
     evt.preventDefault();
     props.onMoviesRequest(
-      moviesRequest
+      {
+        searchText,
+        isShort
+      }
     );
   }
 
@@ -23,16 +22,16 @@ function SearchForm(props) {
         className="search-form__input"
         type="text"
         placeholder="Фильм"
-        value={moviesRequest}
-        onChange={handleChangeMoviesRequest}
+        value={searchText}
+        onChange={onChange}
         required
       />
       <button className="search-form__btn" type="submit"></button>
     </div>
     <div className="search-form__filter-container">
       <div className="search-form__btns-filter">
-        <button className={`search-form__btn-filter ${!props.movieType && 'visible'}`} type="button" onClick={props.onMovieType}></button>
-        <button className={`search-form__btn-filter ${props.movieType && 'visible'}`} type="button" onClick={props.onMovieType}></button>
+        <button className={`search-form__btn-filter ${!isShort && 'visible'}`} type="button" onClick={props.onMovieType}></button>
+        <button className={`search-form__btn-filter ${isShort && 'visible'}`} type="button" onClick={props.onMovieType}></button>
       </div>
       Короткометражки
     </div>

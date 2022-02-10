@@ -1,4 +1,4 @@
-import { useLocation, Route, Routes, useNavigate } from 'react-router';
+import {useLocation, Route, Routes, useNavigate} from 'react-router';
 import { useEffect, useState } from "react";
 
 import Header from '../Header/Header';
@@ -17,6 +17,7 @@ import mainApi from "../../utils/MainApi";
 import moviesApi from "../../utils/MoviesApi";
 import filterMovies from "../../utils/moviesFilter";
 import filterShortMovies from "../../utils/shortMoviesFilter";
+import { CurrentUserContext } from '../../contexts/CurrentUserContext.js';
 
 function App() {
   const location = useLocation().pathname;
@@ -24,74 +25,11 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
   const [isMenuPopupOpen, setIsMenuPopupOpen] = useState(false);
-  const [isShortMovie, setIsShortMovie] = useState(false);
-  const [movies, setMovies] = useState([]);
   const [savedMovies, setSavedMovies] = useState([]);
-  const [inputError, setInputError] = useState(false);
-  const [requestParameter, setRequestParameter] = useState('');
-  const [requestError, setRequestError] = useState(false);
-  const [requestSuccess, setRequestSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   function handleLogin() {
     setLoggedIn(!loggedIn)
-  }
-
-  function handleMovieType() {
-    setIsShortMovie(!isShortMovie);
-  }
-
-  function getRequestParameter(moviesRequest) {
-    setRequestParameter(moviesRequest);
-
-    if (moviesRequest === '') {
-      setInputError(true);
-      setMovies([]);
-    } else {
-      setInputError(false);
-      setIsLoading(true);
-      moviesApi.getBeatfilmMovies()
-        .then((res) => {
-          const filtredMovies = filterMovies(res, moviesRequest.toLowerCase());
-          setRequestSuccess(true);
-          setRequestError(false);
-
-          if (isShortMovie) {
-            const shortMovies = filterShortMovies(filtredMovies);
-            setMovies(shortMovies);
-            localStorage.setItem('gotMovies', JSON.stringify(shortMovies));
-          } else {
-            setMovies(filtredMovies);
-            localStorage.setItem('gotMovies', JSON.stringify(filtredMovies));
-          }
-          setIsLoading(false);
-        })
-        .catch(err => {
-          setRequestError(true);
-          console.log('Ошибка', err)
-        });
-    }
-  }
-
-  // добавление фильма в сохраненные
-  function handleMovieSave(movieCard) {
-    if (!movieCard.isSaved) {
-      mainApi.createMovie(movieCard)
-        .then((movie) => {
-          movie.isSaved = true;
-          setSavedMovies([movie, ...savedMovies]);
-        }).catch(err => console.log('Ошибка', err));
-    }
-  }
-
-  // удаление фильма из числа сохраненных
-  function handleMovieDelete(movieCard) {
-    if (movieCard.isSaved) {
-      mainApi.deleteMovie(movieCard._id)
-        .then((movie) => {
-          setSavedMovies(state => state.filter((c) => c._id !== movie._id));
-        }).catch(err => console.log('Ошибка', err));
-    }
   }
 
   // регистрация пользователя
@@ -107,6 +45,7 @@ function App() {
     mainApi.login(userInfo).then((res) => {
       if (res.token) {
         handleLogin();
+        window.location.reload();
         navigate('/movies');
       } else {
         console.log('Error');
@@ -118,9 +57,61 @@ function App() {
   // выход из учетной записи
   function onLogout() {
     localStorage.removeItem('token');
-    localStorage.removeItem('gotMovies');
+    localStorage.removeItem('allMovies');
+    localStorage.removeItem('requestParameters');
+    localStorage.removeItem('moviesResult');
+    localStorage.removeItem('savedMovies');
     handleLogin();
     navigate('/sign-in');
+  }
+
+  // фильтрация сохранённых фильмов
+  function getRequestParameter(moviesRequest) {
+    const { searchText, isShort } = moviesRequest;
+    const mySavedMovies = JSON.parse(localStorage.getItem('savedMovies'));
+
+    if (searchText === '') {
+      setSavedMovies(mySavedMovies);
+    } else {
+      setIsLoading(true);
+
+      const filtredSavedMovies = filterMovies(mySavedMovies, searchText.toLowerCase());
+
+      if (isShort) {
+        const shortSavedMovies = filterShortMovies(filtredSavedMovies);
+        setSavedMovies(shortSavedMovies);
+      } else {
+        setSavedMovies(filtredSavedMovies);
+      }
+      setTimeout(() => {setIsLoading(false)}, 1000)
+    }
+  }
+
+  // добавить/убрать фильм в сохраненные
+  function handleMovieSave(movieCard) {
+    if (!movieCard.isSaved) {
+      mainApi.createMovie(movieCard)
+        .then((movie) => {
+          movie.isSaved = true;
+          setSavedMovies([movie, ...savedMovies]);
+          localStorage.setItem('savedMovies', JSON.stringify([movie, ...savedMovies]));
+        }).catch(err => console.log('Ошибка', err));
+    } else {
+      const movie = savedMovies.find((movie) => movie.movieId === movieCard.id);
+      handleMovieDelete(movie);
+    }
+  }
+
+  // удаление фильма из числа сохраненных
+  function handleMovieDelete(movieCard) {
+    if (movieCard.isSaved) {
+      mainApi.deleteMovie(movieCard._id)
+        .then((movie) => {
+          const movies = savedMovies.filter((sm) => sm._id !== movie._id)
+          setSavedMovies(movies);
+          localStorage.setItem('savedMovies', JSON.stringify(movies));
+        }).catch(err => console.log('Ошибка', err));
+    }
   }
 
   // редактирование данных о пользователе
@@ -166,49 +157,50 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem('token');
 
-    if (!token) {
-      navigate('/signin')
-    } else {
-      setLoggedIn(true);
+    if(token) {
 
+      setLoggedIn(true);
       Promise.all([mainApi.getUser(), mainApi.getMovies()])
-        .then(([user, movies]) => {
+        .then(([user, savedMovies]) => {
           setCurrentUser(user);
 
-          const myMovies = movies.filter(movie => movie.owner === user._id);
+          const myMovies = savedMovies.filter(movie => movie.owner === user._id);
           const myMoviesSaved = myMovies.map(movie => {
             movie.isSaved = true;
             return movie;
           })
+
           setSavedMovies(myMoviesSaved);
+          localStorage.setItem('savedMovies', JSON.stringify(myMoviesSaved));
         }).catch(err => console.log('Ошибка', err))
     }
+  }, []);
+
+  useEffect(() => {
+    moviesApi.getBeatfilmMovies()
+        .then((movies) => {
+          localStorage.setItem('allMovies', JSON.stringify(movies));
+          }).catch(err => console.log('Ошибка', err))
   }, [loggedIn]);
 
   return (
     <div className="page">
       <Header location={location} onMenuPopup={handleMenuPopClick} loggedIn={loggedIn}/>
       <Menu location={location} state={isMenuPopupOpen} onClose={closePopup}/>
+      <CurrentUserContext.Provider value={currentUser}>
       <Routes>
         <Route path="/" element={<Main loggedIn={loggedIn}/>} />
         <Route path="signup" element={<Register onSubmit={onRegister} loggedIn={loggedIn}/>} />
         <Route path="signin" element={<Login onSubmit={onLogin} loggedIn={loggedIn}/>} />
         <Route path="profile" element={<Profile onLogout={onLogout} isLoading={isLoading} currentUser={currentUser}
-                                                onUpdate={handleUpdateUser}/>} />
+                                                onUpdate={handleUpdateUser} loggedIn={loggedIn}/>} />
         <Route
           path="movies"
           element={<Movies
             loggedIn={loggedIn}
-            onMovieType={handleMovieType}
-            isShortMovie={isShortMovie}
-            onMoviesRequest={getRequestParameter}
             onSave={handleMovieSave}
             onDelete={handleMovieDelete}
-            inputError={inputError}
-            movies={movies}
             isLoading={isLoading}
-            requestError={requestError}
-            requestSuccess={requestSuccess}
             savedMovies={savedMovies}
           />}
         />
@@ -216,17 +208,16 @@ function App() {
           path="saved-movies"
           element={<SavedMovies
             loggedIn={loggedIn}
-            onMovieType={handleMovieType}
-            isShortMovie={isShortMovie}
-            onMoviesRequest={getRequestParameter}
-            requestParameter={requestParameter}
             onSave={handleMovieSave}
             onDelete={handleMovieDelete}
+            onSearch={getRequestParameter}
+            isLoading={isLoading}
             savedMovies={savedMovies}
           />}
         />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      </CurrentUserContext.Provider>
       <Footer location={location} />
     </div>
   );

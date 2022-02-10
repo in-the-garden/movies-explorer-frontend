@@ -12,11 +12,6 @@ function useFormAndValidation() {
     setIsValid(e.target.closest("form").checkValidity());
   };
 
-  const handleCustomizedError = (name, message) => {
-    setErrors({ ...errors, [name]: message });
-    setIsValid(false);
-  };
-
   const resetForm = useCallback(
     (newValues = {}, newErrors = {}, newIsValid = false) => {
       setValues(newValues);
@@ -31,7 +26,6 @@ function useFormAndValidation() {
     errors,
     isValid,
     handleChange,
-    handleCustomizedError,
     resetForm,
   };
 }

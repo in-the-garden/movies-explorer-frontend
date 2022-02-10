@@ -1,20 +1,14 @@
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router';
+import React from 'react';
+import {Navigate} from 'react-router';
 
 import EntryForm from '../EntryForm/EntryForm';
 
 import './Register.css';
 
 function Register({ onSubmit, loggedIn }) {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (loggedIn) {
-      navigate('/movies');
-    }
-  }, [])
 
   return (
+    loggedIn ? <Navigate to={'/movies'} /> :
     <EntryForm
       isSignUp={true}
       title={'Добро пожаловать!'}

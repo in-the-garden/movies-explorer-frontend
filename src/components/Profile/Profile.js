@@ -1,21 +1,42 @@
-import React from 'react';
+import React, {useContext, useState} from 'react';
 import { Link } from 'react-router-dom';
 import useFormAndValidation from '../../utils/useFormAndValidation';
 
 import './Profile.css';
 import Preloader from "../Preloader/Preloader";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import {Navigate} from "react-router";
 
-function Profile({ isLoading, currentUser, onUpdate, onLogout }) {
+function Profile({ isLoading, onUpdate, onLogout, loggedIn }) {
   const { values, errors, isValid, handleChange, resetForm } =
     useFormAndValidation();
 
+  const currentUser = useContext(CurrentUserContext);
+  const [buttonDisabled, setButtonDisabled] = useState(false)
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    onUpdate({ ...values, email: currentUser.email });
+    onUpdate(values);
     resetForm();
   };
 
+  React.useEffect(() => {
+    if (currentUser) {
+      resetForm(currentUser, {}, true)
+    }
+  }, [currentUser, resetForm, loggedIn])
+
+  React.useEffect(() => {
+    if ((values.name !== currentUser.name || values.email !== currentUser.email) && isValid) {
+      setButtonDisabled(true)
+    } else {
+      setButtonDisabled(false)
+    }
+  }, [values.email, isValid, values.name, currentUser.email, currentUser.name])
+
   return (
+    loggedIn ?
     <section className="account">
       <div className="account__container">
         <form className="account__form" onSubmit={handleSubmit} noValidate>
@@ -26,7 +47,6 @@ function Profile({ isLoading, currentUser, onUpdate, onLogout }) {
               className="account__input"
               name="name"
               type="text"
-              placeholder={currentUser.name}
               value={values.name || ''}
               onChange={handleChange}
               minLength="2"
@@ -39,16 +59,15 @@ function Profile({ isLoading, currentUser, onUpdate, onLogout }) {
             <input
               className="account__input"
               name="email" type="email"
-              placeholder={currentUser.email}
               value={values.email || ''}
               onChange={handleChange}
-              disabled={true}
+              pattern="([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+"
               required/>
             <span className="account__input-error">{errors.email}</span>
           </div>
           { isLoading && <Preloader/> }
           <button className="account__button account__button_white" type="submit"
-                  disabled={!isValid && true}>Редактировать
+                  disabled={!buttonDisabled && true}>Редактировать
           </button>
         </form>
         <Link to="/">
@@ -58,6 +77,7 @@ function Profile({ isLoading, currentUser, onUpdate, onLogout }) {
         </Link>
       </div>
     </section>
+      : <Navigate to={'/'} />
   )
 };
 

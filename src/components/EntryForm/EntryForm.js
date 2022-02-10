@@ -31,7 +31,8 @@ function EntryForm({ title, isSignUp, buttonTitle, message, linkPath, linkText, 
             </>
           )}
           <label className="entry__label">E-mail</label>
-          <input className="entry__input" name="email" type="email" value={values.email || ''} onChange={handleChange} required />
+          <input className="entry__input" name="email" type="email" value={values.email || ''} onChange={handleChange}
+                 pattern="([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+" required />
           <span className="entry__input-error">{errors.email}</span>
           <label className="entry__label">Пароль</label>
           <input className="entry__input" name="password" type="password" value={values.password || ''} onChange={handleChange} minLength="2" maxLength="30" required />

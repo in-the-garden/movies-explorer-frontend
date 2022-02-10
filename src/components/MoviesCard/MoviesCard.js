@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import { useLocation } from 'react-router';
 
 import './MoviesCard.css';
@@ -12,7 +12,8 @@ function MoviesCard({ movieCard, onSave, onDelete}) {
 
 
   function handleSaveClick(evt) {
-    if (evt.target.classList.contains('card__btn_not-saved')) {
+    if (evt.target.classList.contains('card__btn_not-saved') ||
+      evt.target.classList.contains('card__btn_is-saved')) {
       setIsSaved(!isSaved);
       onSave(movieCard);
     }
