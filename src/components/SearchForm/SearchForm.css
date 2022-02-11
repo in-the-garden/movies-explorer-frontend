@@ -141,7 +141,7 @@
   .search-form__container {
     background-color: #2F2F2F;
     border-radius: 9px;
-    adding: 25px 0 25px 19px;
+    padding: 25px 0 25px 19px;
   }
 
   .search-form__container::before,

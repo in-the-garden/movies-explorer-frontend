@@ -4,12 +4,12 @@ import './Navigation.css';
 import profileLogo from '../../images/profile-logo.svg';
 import useWindowDimensions from '../useWindowDimensions';
 
-function Navigation({ location, onMenuPopup }) {
+function Navigation({ location, onMenuPopup, loggedIn }) {
   const { width } = useWindowDimensions();
 
   return (
     <>
-      {location === "/" ?
+      {location === "/" && !loggedIn ?
         (
           <nav className="navigation__main-links">
             <Link to="/signup" className="navigation__main-link navigation__main-link_transparent">

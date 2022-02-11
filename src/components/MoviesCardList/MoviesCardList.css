@@ -7,8 +7,9 @@
 
 .card-list__container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 59px 30px;
+  justify-content: space-between;
 }
 
 .card-list__btn {
@@ -36,6 +37,13 @@
   visibility: hidden;
 }
 
+@media (max-width: 1020px) {
+  .card-list__container {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 360px));
+    justify-content: center;
+  }
+}
+
 @media (max-width: 770px) {
   .card-list {
     padding: 80px 0;
@@ -50,6 +58,5 @@
   .card-list__container {
     padding: 50px 0 80px;
     justify-items: center;
-    align-items: center;
   }
 }

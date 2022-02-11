@@ -98,6 +98,16 @@
   opacity: .5;
 }
 
+.entry__button:disabled {
+  background-color: #424242;
+  transition: none;
+}
+
+.entry__button:disabled:hover {
+  cursor: pointer;
+  opacity: 1;
+}
+
 .entry__message {
   margin: 16px 0 0;
   font-weight: 400;
